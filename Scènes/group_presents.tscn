@@ -1,0 +1,63 @@
+[gd_scene load_steps=9 format=3 uid="uid://cw65hm1yeq4yv"]
+
+[ext_resource type="PackedScene" uid="uid://bcae7eaqiwqis" path="res://Importation/3D Model (GLB)/GLB format/present-a-cube.glb" id="1_nd0qa"]
+[ext_resource type="PackedScene" uid="uid://701hl70vhtqr" path="res://Importation/3D Model (GLB)/GLB format/present-a-rectangle.glb" id="2_axniq"]
+[ext_resource type="PackedScene" uid="uid://38bhaaw2wrj7" path="res://Importation/3D Model (GLB)/GLB format/present-a-round.glb" id="3_rllsh"]
+[ext_resource type="PackedScene" uid="uid://c3vjm4s0buj62" path="res://Importation/3D Model (GLB)/GLB format/present-b-cube.glb" id="4_ej8e8"]
+[ext_resource type="PackedScene" uid="uid://dalaoyqqehyu" path="res://Importation/3D Model (GLB)/GLB format/present-b-rectangle.glb" id="5_xo5fk"]
+[ext_resource type="PackedScene" uid="uid://bgtfip2tuibj0" path="res://Importation/3D Model (GLB)/GLB format/present-b-round.glb" id="6_7nm8f"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_8l1ua"]
+size = Vector3(1.54309, 0.950256, 1.45313)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_nd0qa"]
+size = Vector3(3, 1, 3)
+
+[node name="Node3D" type="Node3D"]
+
+[node name="present-a-cube3" parent="." instance=ExtResource("1_nd0qa")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.675686, 0.210837, 0.0511041)
+
+[node name="present-a-rectangle3" parent="." instance=ExtResource("2_axniq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.560905, 0.31463, 0.646125)
+
+[node name="present-a-round3" parent="." instance=ExtResource("3_rllsh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00428259, 0.00832701, 0)
+
+[node name="present-b-cube3" parent="." instance=ExtResource("4_ej8e8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.58778, 0.439259, -0.0168585)
+
+[node name="present-b-rectangle3" parent="." instance=ExtResource("5_xo5fk")]
+transform = Transform3D(0.5946, 0.478208, 0.64635, -0.626713, 0.779251, 0, -0.503669, -0.405076, 0.763041, 0.939086, 0.234378, -0.331166)
+
+[node name="present-b-round3" parent="." instance=ExtResource("6_7nm8f")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.50129, 0.425536, -0.231145)
+
+[node name="present-a-cube2" parent="." instance=ExtResource("1_nd0qa")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.623875, 0, 0)
+
+[node name="present-a-rectangle2" parent="." instance=ExtResource("2_axniq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.461417)
+
+[node name="present-a-round2" parent="." instance=ExtResource("3_rllsh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.635507, 0, -0.540101)
+
+[node name="present-b-cube2" parent="." instance=ExtResource("4_ej8e8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.537684, 0, 0.40219)
+
+[node name="present-b-rectangle2" parent="." instance=ExtResource("5_xo5fk")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.150077, 0.359049, 0.522584)
+
+[node name="present-b-round2" parent="." instance=ExtResource("6_7nm8f")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.717363, 0, 0.438076)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0941322, 0.431244, -0.00195296)
+shape = SubResource("BoxShape3D_8l1ua")
+
+[node name="Area3D" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+shape = SubResource("BoxShape3D_nd0qa")

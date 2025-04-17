@@ -1,0 +1,40 @@
+[gd_scene load_steps=2 format=3 uid="uid://d06s5i4srbdic"]
+
+[ext_resource type="Script" uid="uid://dshjwbb7ahtpc" path="res://Ne pas toucher/Scripts/Menu_Restart.gd" id="1_0nqxm"]
+
+[node name="Menu_Victoire" type="Control"]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_0nqxm")
+"Scène_A_Lancer" = "res://Scènes/Votre_Scene_A_Dupliquer.tscn"
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = 496.0
+offset_top = 251.0
+offset_right = 590.0
+offset_bottom = 291.0
+color = Color(0, 0, 0, 1)
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 511.0
+offset_top = 260.0
+offset_right = 579.0
+offset_bottom = 283.0
+text = "Victoire !"
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 0
+offset_left = 472.0
+offset_top = 322.0
+offset_right = 614.0
+offset_bottom = 372.0
+text = "Continue"
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

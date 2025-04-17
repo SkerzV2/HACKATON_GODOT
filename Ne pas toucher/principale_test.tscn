@@ -1,0 +1,156 @@
+[gd_scene load_steps=12 format=3 uid="uid://b1mg0x5iqmb8g"]
+
+[ext_resource type="PackedScene" uid="uid://bkqhg178vmupd" path="res://Personnages/Joueur/joueur.tscn" id="1_sgsjg"]
+[ext_resource type="PackedScene" uid="uid://ctsgxe13ne84g" path="res://Nodes/objet_base.tscn" id="2_ayfk7"]
+[ext_resource type="PackedScene" uid="uid://c73inar6buts0" path="res://Ne pas toucher/Personnages/Ennemis/corps_skeleton_minion.tscn" id="4_efmox"]
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_5k7af"]
+vertices = PackedVector3Array(-1, 1, -5.75, 1, 1, -6, 1, 1, -6.75, -3, 1, -5, -2.75, 1, -3.75, -0.75, 1, -3.75, -1, 1, -5.75, -6.75, 1, 0, -6, 1, 0, -6, 1, -4.75, -6.75, 1, -7, -3, 1, -5, -1, 1, -5.75, 1, 1, -6.75, -6.75, 1, -7, -6, 1, -4.75, -5.75, 1, 1.25, -6, 1, 0, -6.75, 1, 0, -6.75, 1, 7, 1, 1, -6.75, 1, 1, -6, 2.25, 1, -5.75, 7, 1, -6.75, -2.75, 1, 0.75, -3.25, 1, 1.25, -6.75, 1, 7, -0.75, 1, -3.75, -2.75, 1, -3.75, -2.75, 1, 0.75, 7, 1, -6.75, 2.25, 1, -5.75, 2.25, 1, -4.25, -2.75, 1, 0.75, -6.75, 1, 7, 7, 1, 7, 7, 1, -6.75, 1.75, 1, -3.75, 7, 1, -6.75, 2.25, 1, -4.25, 1.75, 1, -3.75, 1.75, 1, -3.75, -0.75, 1, -3.75, -2.75, 1, 0.75, -3.25, 1, 1.25, -5.75, 1, 1.25, -6.75, 1, 7, -5, 4, -4, -5, 4, 0.25, -3.75, 4, 0.25, -3.75, 4, -4, -4.75, 1, -3.75, -4.75, 1, 0, -4, 1, 0, -4, 1, -3.75)
+polygons = [PackedInt32Array(2, 1, 0), PackedInt32Array(4, 3, 5), PackedInt32Array(5, 3, 6), PackedInt32Array(8, 7, 9), PackedInt32Array(9, 7, 10), PackedInt32Array(12, 11, 13), PackedInt32Array(13, 11, 15), PackedInt32Array(13, 15, 14), PackedInt32Array(17, 16, 18), PackedInt32Array(18, 16, 19), PackedInt32Array(21, 20, 22), PackedInt32Array(22, 20, 23), PackedInt32Array(26, 25, 24), PackedInt32Array(29, 28, 27), PackedInt32Array(32, 31, 30), PackedInt32Array(37, 36, 33), PackedInt32Array(33, 36, 35), PackedInt32Array(33, 35, 34), PackedInt32Array(40, 39, 38), PackedInt32Array(43, 42, 41), PackedInt32Array(46, 45, 44), PackedInt32Array(50, 49, 47), PackedInt32Array(47, 49, 48), PackedInt32Array(54, 53, 51), PackedInt32Array(51, 53, 52)]
+agent_max_slope = 60.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1rut4"]
+albedo_color = Color(1, 0.584314, 0.517647, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8dd6e"]
+albedo_color = Color(0.576471, 0.67451, 1, 1)
+
+[sub_resource type="Environment" id="Environment_wjog8"]
+ambient_light_source = 2
+ambient_light_color = Color(1, 0.972549, 0.988235, 1)
+ssao_enabled = true
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_wnjjj"]
+noise_type = 2
+seed = 6
+frequency = 0.0313
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_sbiae"]
+width = 2048
+height = 2048
+as_normal_map = true
+noise = SubResource("FastNoiseLite_wnjjj")
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_mddqr"]
+width = 2048
+height = 2048
+as_normal_map = true
+noise = SubResource("FastNoiseLite_wnjjj")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_f8tap"]
+albedo_texture = SubResource("NoiseTexture2D_sbiae")
+normal_texture = SubResource("NoiseTexture2D_mddqr")
+
+[node name="Principale_test" type="Node3D"]
+
+[node name="Map" type="NavigationRegion3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+navigation_mesh = SubResource("NavigationMesh_5k7af")
+
+[node name="Mur 1" type="CSGBox3D" parent="Map"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 2, 0)
+use_collision = true
+size = Vector3(1, 3, 17)
+
+[node name="Mur 2" type="CSGBox3D" parent="Map"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 2, 0)
+use_collision = true
+size = Vector3(1, 3, 17)
+
+[node name="Mur 3" type="CSGBox3D" parent="Map"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 1.5, 8)
+use_collision = true
+size = Vector3(1, 2, 17)
+
+[node name="Mur 4" type="CSGBox3D" parent="Map"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 1.5, -8)
+use_collision = true
+size = Vector3(1, 2, 17)
+
+[node name="Objet 1" type="CSGBox3D" parent="Map"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 1, -5)
+use_collision = true
+size = Vector3(2, 1, 1)
+material = SubResource("StandardMaterial3D_1rut4")
+
+[node name="Objet 2" type="CSGBox3D" parent="Map"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.5, 2, -2)
+use_collision = true
+size = Vector3(2, 3, 5)
+material = SubResource("StandardMaterial3D_8dd6e")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Map"]
+environment = SubResource("Environment_wjog8")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Map"]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Map"]
+use_collision = true
+size = Vector3(17, 1, 17)
+material = SubResource("StandardMaterial3D_f8tap")
+
+[node name="Joueur" parent="." instance=ExtResource("1_sgsjg")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+
+[node name="Ennemi" parent="." instance=ExtResource("2_ayfk7")]
+
+[node name="Corps" type="CharacterBody3D" parent="Ennemi"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ennemi/Corps"]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Ennemi/Corps"]
+
+[node name="Recevoir dégât" type="Node3D" parent="Ennemi"]
+
+[node name="Arme à distance" type="Node3D" parent="Ennemi"]
+
+[node name="Attaque et ronde" type="Node3D" parent="Ennemi"]
+
+[node name="FX mort" type="Node3D" parent="Ennemi"]
+
+[node name="Clé" parent="." instance=ExtResource("2_ayfk7")]
+
+[node name="Corps" type="Area3D" parent="Clé"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Clé/Corps"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Clé/Corps"]
+
+[node name="Dégât au contact du joueur" type="Node3D" parent="Clé"]
+
+[node name="Déclenche apparition" type="Node3D" parent="Clé"]
+
+[node name="FX mort" type="Node3D" parent="Clé"]
+
+[node name="Rotation automatique" type="Node3D" parent="Clé"]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Clé/Rotation automatique"]
+root_node = NodePath("../../Corps")
+
+[node name="Tonneau explosif" parent="." instance=ExtResource("2_ayfk7")]
+
+[node name="Corps" type="Area3D" parent="Tonneau explosif"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Tonneau explosif/Corps"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Tonneau explosif/Corps"]
+
+[node name="Recevoir dégât" type="Node3D" parent="Tonneau explosif"]
+
+[node name="FX mort" type="Node3D" parent="Tonneau explosif"]
+
+[node name="Porte" parent="." instance=ExtResource("2_ayfk7")]
+
+[node name="Corps" type="RigidBody3D" parent="Porte"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Porte/Corps"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Porte/Corps"]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Porte/Corps"]
+
+[node name="Multiple déclencheur" parent="." instance=ExtResource("2_ayfk7")]
+max_vie = 3
+
+[node name="Corps_Skeleton_Minion" parent="." instance=ExtResource("4_efmox")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 5)

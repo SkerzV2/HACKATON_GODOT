@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://cvnhqii8iteaf"]
+
+[ext_resource type="Script" uid="uid://ta823m1gqyrg" path="res://Ne pas toucher/FX mort.gd" id="1_ltubm"]
+
+[node name="FX mort" type="Node3D"]
+script = ExtResource("1_ltubm")

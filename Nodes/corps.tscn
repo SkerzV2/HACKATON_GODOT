@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dkps44cl5i0i2"]
+
+[ext_resource type="Script" uid="uid://c5whw7sx51ag1" path="res://Ne pas toucher/Corps_Objets.gd" id="1_yvrl6"]
+
+[node name="Corps" type="Area3D"]
+script = ExtResource("1_yvrl6")

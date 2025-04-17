@@ -1,0 +1,5 @@
+[gd_scene load_steps=2 format=3 uid="uid://236yfv4ola5o"]
+
+[ext_resource type="PackedScene" uid="uid://dfx633fth45o4" path="res://Importation/3D Model (GLB)/GLB format/cabin-door-rotate.glb" id="1_2da6r"]
+
+[node name="cabin-door-rotate2" instance=ExtResource("1_2da6r")]

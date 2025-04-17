@@ -1,0 +1,230 @@
+[gd_scene load_steps=25 format=3 uid="uid://jktpjbmkmjpd"]
+
+[ext_resource type="PackedScene" uid="uid://bkqhg178vmupd" path="res://Personnages/Joueur/joueur.tscn" id="1_x5se0"]
+[ext_resource type="PackedScene" uid="uid://ctsgxe13ne84g" path="res://Nodes/objet_base.tscn" id="2_5igw8"]
+[ext_resource type="PackedScene" uid="uid://di6nenog517xc" path="res://Graphismes/Objets 3D/Environment Sets/Prototype_Bits/Door_A.gltf" id="3_hayx6"]
+[ext_resource type="AudioStream" uid="uid://cseidah8i8hxn" path="res://Ne pas toucher/Sons/Key19.wav" id="4_qe0uq"]
+[ext_resource type="PackedScene" uid="uid://dkps44cl5i0i2" path="res://Nodes/corps.tscn" id="5_gukxv"]
+[ext_resource type="PackedScene" uid="uid://cmkaj06h115mx" path="res://Graphismes/Objets 3D/Environment Sets/DungeonRemastered/key.gltf.glb" id="6_nkkl4"]
+[ext_resource type="PackedScene" uid="uid://n8bbppxr6bhp" path="res://Nodes/dégât_au_contact_du_joueur.tscn" id="7_hwwar"]
+[ext_resource type="PackedScene" uid="uid://cvnhqii8iteaf" path="res://Nodes/fx_mort.tscn" id="8_426rd"]
+[ext_resource type="AudioStream" uid="uid://xxjs0u6gw76x" path="res://Ne pas toucher/Sons/Monster9_Death10.wav" id="9_k0vf5"]
+[ext_resource type="PackedScene" uid="uid://pn0oopvxq3vn" path="res://Nodes/rotation_automatique.tscn" id="10_7cyn1"]
+[ext_resource type="Script" uid="uid://u8rveu0varkj" path="res://Ne pas toucher/General_Manager.gd" id="11_fq11y"]
+[ext_resource type="Script" uid="uid://dvh6v84mxw10y" path="res://Nodes/Soundtrack.gd" id="12_21hfa"]
+[ext_resource type="PackedScene" uid="uid://joql612x8isj" path="res://Graphismes/Objets 3D/Environment Sets/DungeonRemastered/chest.glb" id="13_a6e1w"]
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_5k7af"]
+vertices = PackedVector3Array(-1, 1, -5.75, 1, 1, -6, 1, 1, -6.75, -3, 1, -5, -2.75, 1, -3.75, -0.75, 1, -3.75, -1, 1, -5.75, -6.75, 1, 0, -6, 1, 0, -6, 1, -4.75, -6.75, 1, -7, -3, 1, -5, -1, 1, -5.75, 1, 1, -6.75, -6.75, 1, -7, -6, 1, -4.75, -5.75, 1, 1.25, -6, 1, 0, -6.75, 1, 0, -6.75, 1, 7, 1, 1, -6.75, 1, 1, -6, 2.25, 1, -5.75, 7, 1, -6.75, -2.75, 1, 0.75, -3.25, 1, 1.25, -6.75, 1, 7, -0.75, 1, -3.75, -2.75, 1, -3.75, -2.75, 1, 0.75, 7, 1, -6.75, 2.25, 1, -5.75, 2.25, 1, -4.25, -2.75, 1, 0.75, -6.75, 1, 7, 7, 1, 7, 7, 1, -6.75, 1.75, 1, -3.75, 7, 1, -6.75, 2.25, 1, -4.25, 1.75, 1, -3.75, 1.75, 1, -3.75, -0.75, 1, -3.75, -2.75, 1, 0.75, -3.25, 1, 1.25, -5.75, 1, 1.25, -6.75, 1, 7, -5, 4, -4, -5, 4, 0.25, -3.75, 4, 0.25, -3.75, 4, -4, -4.75, 1, -3.75, -4.75, 1, 0, -4, 1, 0, -4, 1, -3.75)
+polygons = [PackedInt32Array(2, 1, 0), PackedInt32Array(4, 3, 5), PackedInt32Array(5, 3, 6), PackedInt32Array(8, 7, 9), PackedInt32Array(9, 7, 10), PackedInt32Array(12, 11, 13), PackedInt32Array(13, 11, 15), PackedInt32Array(13, 15, 14), PackedInt32Array(17, 16, 18), PackedInt32Array(18, 16, 19), PackedInt32Array(21, 20, 22), PackedInt32Array(22, 20, 23), PackedInt32Array(26, 25, 24), PackedInt32Array(29, 28, 27), PackedInt32Array(32, 31, 30), PackedInt32Array(37, 36, 33), PackedInt32Array(33, 36, 35), PackedInt32Array(33, 35, 34), PackedInt32Array(40, 39, 38), PackedInt32Array(43, 42, 41), PackedInt32Array(46, 45, 44), PackedInt32Array(50, 49, 47), PackedInt32Array(47, 49, 48), PackedInt32Array(54, 53, 51), PackedInt32Array(51, 53, 52)]
+agent_max_slope = 60.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1rut4"]
+albedo_color = Color(1, 0.584314, 0.517647, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8dd6e"]
+albedo_color = Color(0.576471, 0.67451, 1, 1)
+
+[sub_resource type="Environment" id="Environment_wjog8"]
+ambient_light_source = 2
+ambient_light_color = Color(1, 0.972549, 0.988235, 1)
+ssao_enabled = true
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_wnjjj"]
+noise_type = 2
+seed = 6
+frequency = 0.0313
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_sbiae"]
+width = 2048
+height = 2048
+as_normal_map = true
+noise = SubResource("FastNoiseLite_wnjjj")
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_mddqr"]
+width = 2048
+height = 2048
+as_normal_map = true
+noise = SubResource("FastNoiseLite_wnjjj")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_f8tap"]
+albedo_texture = SubResource("NoiseTexture2D_sbiae")
+normal_texture = SubResource("NoiseTexture2D_mddqr")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_4wlda"]
+size = Vector3(1.53278, 3.30457, 0.328125)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_365sl"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_6bej6"]
+size = Vector3(1.73047, 1.70618, 1)
+
+[node name="Principale_test" type="Node3D"]
+
+[node name="Map" type="NavigationRegion3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+navigation_mesh = SubResource("NavigationMesh_5k7af")
+
+[node name="Mur 1" type="CSGBox3D" parent="Map"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 2, 0)
+use_collision = true
+size = Vector3(1, 3, 17)
+
+[node name="Mur 2" type="CSGBox3D" parent="Map"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 2, 0)
+use_collision = true
+size = Vector3(1, 3, 17)
+
+[node name="Mur 3" type="CSGBox3D" parent="Map"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 1.5, 8)
+use_collision = true
+size = Vector3(1, 2, 17)
+
+[node name="Mur 4" type="CSGBox3D" parent="Map"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 1.5, -8)
+use_collision = true
+size = Vector3(1, 2, 17)
+
+[node name="Objet 1" type="CSGBox3D" parent="Map"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 1, -5)
+use_collision = true
+size = Vector3(2, 1, 1)
+material = SubResource("StandardMaterial3D_1rut4")
+
+[node name="Objet 2" type="CSGBox3D" parent="Map"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.5, 2, -2)
+use_collision = true
+size = Vector3(2, 3, 5)
+material = SubResource("StandardMaterial3D_8dd6e")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Map"]
+environment = SubResource("Environment_wjog8")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Map"]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Map"]
+use_collision = true
+size = Vector3(17, 1, 17)
+material = SubResource("StandardMaterial3D_f8tap")
+
+[node name="Joueur" parent="." instance=ExtResource("1_x5se0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+
+[node name="Porte" parent="." instance=ExtResource("2_5igw8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.351645, -3.80785)
+"Déclencheur" = 2
+
+[node name="Corps solide" type="StaticBody3D" parent="Porte"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Porte/Corps solide"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.03842, 1.15228, -0.0273438)
+shape = SubResource("BoxShape3D_4wlda")
+
+[node name="Door_A2" parent="Porte/Corps solide" instance=ExtResource("3_hayx6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.263836, 0, 0)
+
+[node name="Clé 2" parent="." node_paths=PackedStringArray("déclencher_a_la_mort1") instance=ExtResource("2_5igw8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.607307, 0.0158597, 3.22749)
+"déclencher_a_la_mort1" = NodePath("../Porte")
+max_vie = 1
+"Son_Joué_Par_Déclencheur" = ExtResource("4_qe0uq")
+
+[node name="Corps" parent="Clé 2" instance=ExtResource("5_gukxv")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Clé 2/Corps"]
+shape = SubResource("BoxShape3D_365sl")
+
+[node name="key_gltf" parent="Clé 2/Corps" instance=ExtResource("6_nkkl4")]
+
+[node name="Dégât au contact du joueur" parent="Clé 2" instance=ExtResource("7_hwwar")]
+"Nombre_Dégats" = 1
+
+[node name="FX mort" parent="Clé 2" instance=ExtResource("8_426rd")]
+Son_A_La_Mort = ExtResource("4_qe0uq")
+
+[node name="Rotation automatique" parent="Clé 2" instance=ExtResource("10_7cyn1")]
+
+[node name="Dommage On Hit" type="Node3D" parent="Clé 2"]
+
+[node name="Multiple déclencheur" parent="." node_paths=PackedStringArray("déclencher_a_la_mort1") instance=ExtResource("2_5igw8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.50185)
+"déclencher_a_la_mort1" = NodePath("../Porte")
+max_vie = 3
+"Vie_Perdu_Par_Déclencheur" = 1
+
+[node name="General_Manager" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("11_fq11y")
+
+[node name="Menus" type="Node" parent="."]
+
+[node name="Music_Manager" type="Node" parent="."]
+
+[node name="Soundtrack" type="Node3D" parent="Music_Manager"]
+script = ExtResource("12_21hfa")
+Son_A_Jouer = ExtResource("9_k0vf5")
+LayeringNumber = 2
+
+[node name="Play" type="Node3D" parent="Music_Manager/Soundtrack"]
+
+[node name="Pause" type="Node3D" parent="Music_Manager/Soundtrack"]
+
+[node name="Soundtrack2" type="Node3D" parent="Music_Manager"]
+script = ExtResource("12_21hfa")
+Son_A_Jouer = ExtResource("9_k0vf5")
+LayeringNumber = 2
+
+[node name="Play" type="Node3D" parent="Music_Manager/Soundtrack2"]
+
+[node name="Pause" type="Node3D" parent="Music_Manager/Soundtrack2"]
+
+[node name="Soundtrack3" type="Node3D" parent="Music_Manager"]
+script = ExtResource("12_21hfa")
+Son_A_Jouer = ExtResource("9_k0vf5")
+LayeringNumber = 1
+
+[node name="Play" type="Node3D" parent="Music_Manager/Soundtrack3"]
+
+[node name="Pause" type="Node3D" parent="Music_Manager/Soundtrack3"]
+
+[node name="Soundtrack4" type="Node3D" parent="Music_Manager"]
+script = ExtResource("12_21hfa")
+Son_A_Jouer = ExtResource("9_k0vf5")
+LayeringNumber = 1
+
+[node name="Play" type="Node3D" parent="Music_Manager/Soundtrack4"]
+
+[node name="Pause" type="Node3D" parent="Music_Manager/Soundtrack4"]
+
+[node name="Soundtrack5" type="Node3D" parent="Music_Manager"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.23643, -2.38419e-07, -3.81622)
+script = ExtResource("12_21hfa")
+Son_A_Jouer = ExtResource("9_k0vf5")
+Spatialiser = true
+
+[node name="Play" type="Node3D" parent="Music_Manager/Soundtrack5"]
+
+[node name="Pause" type="Node3D" parent="Music_Manager/Soundtrack5"]
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+
+[node name="Coffre" parent="." node_paths=PackedStringArray("déclencher_a_la_mort1") instance=ExtResource("2_5igw8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.81972, 0, 0)
+"déclencher_a_la_mort1" = NodePath("../Porte")
+max_vie = 1
+"Vie_Perdu_Par_Déclencheur" = 1
+
+[node name="Corps" parent="Coffre" instance=ExtResource("5_gukxv")]
+
+[node name="chest2" parent="Coffre/Corps" instance=ExtResource("13_a6e1w")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Coffre/Corps"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0546875, 0.353088, 0)
+shape = SubResource("BoxShape3D_6bej6")
+
+[node name="Dégât au contact du joueur" parent="Coffre" instance=ExtResource("7_hwwar")]
+"Nombre_Dégats" = 1
+
+[node name="Rotation automatique" parent="Coffre" instance=ExtResource("10_7cyn1")]
+
+[connection signal="body_entered" from="Clé 2/Corps" to="Clé 2/Corps" method="_Quand_Collision"]

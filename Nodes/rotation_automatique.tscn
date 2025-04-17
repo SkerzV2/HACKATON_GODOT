@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://pn0oopvxq3vn"]
+
+[ext_resource type="Script" uid="uid://c61vpom1q34e5" path="res://Ne pas toucher/Rotation automatique.gd" id="1_ju5pt"]
+
+[node name="Rotation automatique" type="Node3D"]
+script = ExtResource("1_ju5pt")

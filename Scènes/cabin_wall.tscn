@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://dld0qielx5gij"]
+
+[ext_resource type="PackedScene" uid="uid://dcivhi83h6b2d" path="res://Importation/3D Model (GLB)/GLB format/cabin-wall.glb" id="1_raq5d"]
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_ngmwb"]
+points = PackedVector3Array(-0.47775, 0.0671354, 0.366432, 0.486051, 0.985861, 0.60707, 0.507937, 0.912593, 0.659524, -0.507937, 0.912593, 0.659524, 0.507937, 0.0874072, 0.659524, 0.477786, 0.902971, 0.351486, -0.48826, 0.988069, 0.394035, -0.507937, 0.0874072, 0.659524, 0.48826, 0.0119309, 0.394035, -0.486051, 0.0141394, 0.60707, -0.477786, 0.902971, 0.351486, 0.477786, 0.0970289, 0.351486, 0.48826, 0.988069, 0.394035, 0.486051, 0.0141394, 0.60707, -0.486051, 0.985861, 0.60707, -0.48826, 0.0119309, 0.394035, -0.477786, 0.0970289, 0.351486)
+
+[node name="cabin-wall2" instance=ExtResource("1_raq5d")]
+
+[node name="StaticBody3D" type="StaticBody3D" parent="cabin-wall" index="0"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="cabin-wall/StaticBody3D" index="0"]
+shape = SubResource("ConvexPolygonShape3D_ngmwb")

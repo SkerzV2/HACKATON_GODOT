@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://n8bbppxr6bhp"]
+
+[ext_resource type="Script" uid="uid://dp7xu1t85ewf2" path="res://Ne pas toucher/Dégât au contact du joueur.gd" id="1_frr8a"]
+
+[node name="Dégât au contact du joueur" type="Node3D"]
+script = ExtResource("1_frr8a")

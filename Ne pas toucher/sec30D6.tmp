@@ -1,0 +1,208 @@
+[gd_scene load_steps=24 format=3 uid="uid://deqfgx87jrhyw"]
+
+[ext_resource type="PackedScene" uid="uid://bkqhg178vmupd" path="res://Personnages/Joueur/joueur.tscn" id="1_3tr8t"]
+[ext_resource type="PackedScene" uid="uid://cji7sslmby0bg" path="res://Ne pas toucher/Graphismes/Modèles/Environment Sets/KayKit_HalloweenBits_1.0_FREE/fence.gltf" id="1_n7wdt"]
+[ext_resource type="PackedScene" uid="uid://ctsgxe13ne84g" path="res://Ne pas toucher/objet_base.tscn" id="2_f2tri"]
+[ext_resource type="PackedScene" uid="uid://c73inar6buts0" path="res://Ne pas toucher/Personnages/Ennemis/corps_skeleton_minion.tscn" id="3_0na5t"]
+[ext_resource type="Script" path="res://Ne pas toucher/Corps_Objets.gd" id="4_kl4k7"]
+[ext_resource type="PackedScene" uid="uid://cmkaj06h115mx" path="res://Ne pas toucher/Graphismes/Modèles/Environment Sets/KayKit_DungeonRemastered_1.0_EXTRA/key.gltf.glb" id="5_ugcle"]
+[ext_resource type="Script" path="res://Ne pas toucher/Dégât au contact du joueur.gd" id="6_yumof"]
+[ext_resource type="Script" path="res://Ne pas toucher/FX mort.gd" id="7_4raja"]
+[ext_resource type="AudioStream" uid="uid://cseidah8i8hxn" path="res://Ne pas toucher/Sons/Key19.wav" id="8_tcfsd"]
+[ext_resource type="Script" path="res://Ne pas toucher/Rotation automatique.gd" id="9_tvp5j"]
+[ext_resource type="AudioStream" uid="uid://xxjs0u6gw76x" path="res://Ne pas toucher/Sons/Monster9_Death10.wav" id="10_7qmcq"]
+[ext_resource type="Script" path="res://Ne pas toucher/General_Manager.gd" id="10_cv4g3"]
+[ext_resource type="PackedScene" uid="uid://dksspqxtvl1v" path="res://Ne pas toucher/Graphismes/Modèles/Environment Sets/KayKit_DungeonRemastered_1.0_EXTRA/wall_doorway_scaffold.glb" id="11_ttr4k"]
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_5k7af"]
+vertices = PackedVector3Array(-7.75, 4, -16.1206, -2.75, 4, -16.3706, -2.75, 4, -17.6206, -7.75, 4, -17.8706, -8, 4, -24.1206, -8, 4, 7.87939, -7.75, 4, -16.1206, -7.75, 4, -17.8706, -6.75, 1, -23.3706, -6.75, 1, -18.6206, -3.5, 1, -18.6206, -3.5, 1, -23.3706, 7, 1, -16.8706, 7, 1, -23.3706, -1.5, 1, -23.3706, -1.75, 1, -17.1206, -6.75, 1, -17.3706, -6.75, 1, -16.6206, -3, 1, -16.6206, -3, 1, -17.3706, 2, 1, -6.12061, 2.25, 1, -5.12061, 7, 1, -5.12061, 7, 1, -16.8706, -1.75, 1, -17.1206, -1.75, 1, -15.8706, 2, 1, -6.12061, 7, 1, -5.12061, -1.75, 1, -15.8706, -0.5, 1, -6.12061, 2, 1, -6.12061, -3, 1, -5.12061, -2.75, 1, -4.37061, -1, 1, -4.62061, -1, 1, -5.87061, -0.5, 1, -6.12061, -1.75, 1, -15.8706, -2, 1, -15.3706, -3, 1, -5.12061, -1, 1, -5.87061, -0.5, 1, -6.12061, -2, 1, -15.3706, -6.75, 1, -15.3706, -6, 1, -4.87061, -6.75, 1, -0.120605, -6, 1, -0.120605, -6, 1, -4.87061, -6.75, 1, -15.3706, -5.75, 1, 1.12939, -6, 1, -0.120605, -6.75, 1, -0.120605, -6.75, 1, 6.87939, -0.75, 1, -3.87061, -1, 1, -4.62061, -2.75, 1, -4.37061, -2.75, 1, 0.879395, 7, 1, -5.12061, 2.25, 1, -5.12061, 2, 1, -3.87061, -2.75, 1, 0.879395, -6.75, 1, 6.87939, 7, 1, 6.87939, 7, 1, -5.12061, 2, 1, -3.87061, -2.75, 1, 0.879395, -5.75, 1, 1.12939, -6.75, 1, 6.87939, 2, 1, -3.87061, -0.75, 1, -3.87061, -2.75, 1, 0.879395, -5, 4, -4.12061, -5, 4, 0.129395, -3.75, 4, 0.129395, -3.75, 4, -4.12061, -4.75, 1, -3.87061, -4.75, 1, -0.120605, -4, 1, -0.120605, -4, 1, -3.87061)
+polygons = [PackedInt32Array(1, 0, 2), PackedInt32Array(2, 0, 3), PackedInt32Array(7, 6, 4), PackedInt32Array(4, 6, 5), PackedInt32Array(11, 10, 8), PackedInt32Array(8, 10, 9), PackedInt32Array(14, 13, 15), PackedInt32Array(15, 13, 12), PackedInt32Array(19, 18, 16), PackedInt32Array(16, 18, 17), PackedInt32Array(22, 21, 20), PackedInt32Array(24, 23, 25), PackedInt32Array(25, 23, 26), PackedInt32Array(26, 23, 27), PackedInt32Array(30, 29, 28), PackedInt32Array(32, 31, 33), PackedInt32Array(33, 31, 34), PackedInt32Array(37, 36, 35), PackedInt32Array(39, 38, 40), PackedInt32Array(40, 38, 43), PackedInt32Array(40, 43, 41), PackedInt32Array(41, 43, 42), PackedInt32Array(45, 44, 46), PackedInt32Array(46, 44, 47), PackedInt32Array(49, 48, 50), PackedInt32Array(50, 48, 51), PackedInt32Array(53, 52, 54), PackedInt32Array(54, 52, 55), PackedInt32Array(58, 57, 56), PackedInt32Array(63, 62, 59), PackedInt32Array(59, 62, 61), PackedInt32Array(59, 61, 60), PackedInt32Array(66, 65, 64), PackedInt32Array(67, 69, 68), PackedInt32Array(73, 72, 70), PackedInt32Array(70, 72, 71), PackedInt32Array(77, 76, 74), PackedInt32Array(74, 76, 75)]
+agent_max_slope = 60.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1rut4"]
+albedo_color = Color(1, 0.584314, 0.517647, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8dd6e"]
+albedo_color = Color(0.576471, 0.67451, 1, 1)
+
+[sub_resource type="Environment" id="Environment_wjog8"]
+ambient_light_source = 2
+ambient_light_color = Color(1, 0.972549, 0.988235, 1)
+ssao_enabled = true
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_wnjjj"]
+noise_type = 2
+seed = 6
+frequency = 0.0313
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_sbiae"]
+width = 2048
+height = 2048
+as_normal_map = true
+noise = SubResource("FastNoiseLite_wnjjj")
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_mddqr"]
+width = 2048
+height = 2048
+as_normal_map = true
+noise = SubResource("FastNoiseLite_wnjjj")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_f8tap"]
+albedo_texture = SubResource("NoiseTexture2D_sbiae")
+normal_texture = SubResource("NoiseTexture2D_mddqr")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_d2p7s"]
+size = Vector3(0.896057, 0.378113, 0.228516)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_vdqwk"]
+size = Vector3(4.19312, 4.52161, 1)
+
+[node name="Principale_test" type="Node3D"]
+
+[node name="Map" type="NavigationRegion3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+navigation_mesh = SubResource("NavigationMesh_5k7af")
+
+[node name="Mur 1" type="CSGBox3D" parent="Map"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 2, -7.96106)
+use_collision = true
+size = Vector3(1, 3, 32.9221)
+
+[node name="Mur 2" type="CSGBox3D" parent="Map"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 2, -8.0293)
+use_collision = true
+size = Vector3(1, 3, 33.0586)
+
+[node name="Mur 3" type="CSGBox3D" parent="Map"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 1.5, 8)
+use_collision = true
+size = Vector3(1, 2, 17)
+
+[node name="Mur 4" type="CSGBox3D" parent="Map"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 1.5, -24.5468)
+use_collision = true
+size = Vector3(1, 2, 17)
+
+[node name="Objet 1" type="CSGBox3D" parent="Map"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 1, -5)
+use_collision = true
+size = Vector3(2, 1, 1)
+material = SubResource("StandardMaterial3D_1rut4")
+
+[node name="Objet 2" type="CSGBox3D" parent="Map"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.5, 2, -2)
+use_collision = true
+size = Vector3(2, 3, 5)
+material = SubResource("StandardMaterial3D_8dd6e")
+
+[node name="Objet 3" type="CSGBox3D" parent="Map"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -4.96723, 2, -17.0366)
+use_collision = true
+size = Vector3(2, 3, 5)
+material = SubResource("StandardMaterial3D_8dd6e")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Map"]
+environment = SubResource("Environment_wjog8")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Map"]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Map"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -8.3103)
+use_collision = true
+size = Vector3(17, 1, 33.6206)
+material = SubResource("StandardMaterial3D_f8tap")
+
+[node name="fence2" parent="Map" instance=ExtResource("1_n7wdt")]
+transform = Transform3D(-6.55671e-08, 0, 1.5, 0, 1.5, 0, -1.5, 0, -6.55671e-08, -2.49174, 0.5, -21.1692)
+
+[node name="Label3D" type="Label3D" parent="Map"]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, -4.84481, 1.89131, -18.3095)
+modulate = Color(0.282353, 0.721569, 0.384314, 1)
+outline_modulate = Color(1, 1, 1, 1)
+text = "You are safe
+inside here"
+font_size = 64
+
+[node name="Joueur" parent="." instance=ExtResource("1_3tr8t")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.71316, 0.5, -19.9925)
+
+[node name="Ennemi" parent="." instance=ExtResource("2_f2tri")]
+
+[node name="Corps" type="CharacterBody3D" parent="Ennemi"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ennemi/Corps"]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Ennemi/Corps"]
+
+[node name="Recevoir dégât" type="Node3D" parent="Ennemi"]
+
+[node name="Arme à distance" type="Node3D" parent="Ennemi"]
+
+[node name="Attaque et ronde" type="Node3D" parent="Ennemi"]
+
+[node name="FX mort" type="Node3D" parent="Ennemi"]
+
+[node name="Clé" parent="." node_paths=PackedStringArray("déclencher_a_la_mort") instance=ExtResource("2_f2tri")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.16006, 0.213211, 2.01138)
+"déclencher_a_la_mort" = NodePath("../Porte")
+max_vie = 1
+
+[node name="Corps" type="Area3D" parent="Clé"]
+script = ExtResource("4_kl4k7")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Clé/Corps"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.241547, 0.0476379, 0)
+shape = SubResource("BoxShape3D_d2p7s")
+
+[node name="key_gltf" parent="Clé/Corps" instance=ExtResource("5_ugcle")]
+
+[node name="Dégât au contact du joueur" type="Node3D" parent="Clé"]
+script = ExtResource("6_yumof")
+"Nombre_Dégats" = 1
+
+[node name="Déclenche apparition" type="Node3D" parent="Clé"]
+
+[node name="FX mort" type="Node3D" parent="Clé"]
+script = ExtResource("7_4raja")
+Son_A_La_Mort = ExtResource("8_tcfsd")
+
+[node name="Rotation automatique" type="Node3D" parent="Clé"]
+script = ExtResource("9_tvp5j")
+
+[node name="Tonneau explosif" parent="." instance=ExtResource("2_f2tri")]
+
+[node name="Corps" type="Area3D" parent="Tonneau explosif"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Tonneau explosif/Corps"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Tonneau explosif/Corps"]
+
+[node name="Recevoir dégât" type="Node3D" parent="Tonneau explosif"]
+
+[node name="FX mort" type="Node3D" parent="Tonneau explosif"]
+
+[node name="Porte" parent="." instance=ExtResource("2_f2tri")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.24086, 0, 0)
+"Déclencheur" = 2
+"Son_Joué_Par_Déclencheur" = ExtResource("10_7qmcq")
+
+[node name="Corps" type="RigidBody3D" parent="Porte"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.99769, 0, 0)
+
+[node name="wall_doorway_scaffold2" parent="Porte/Corps" instance=ExtResource("11_ttr4k")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Porte/Corps"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0823975, 1.7608, 0)
+shape = SubResource("BoxShape3D_vdqwk")
+
+[node name="Multiple déclencheur" parent="." instance=ExtResource("2_f2tri")]
+max_vie = 3
+
+[node name="Corps_Skeleton_Minion" parent="." instance=ExtResource("3_0na5t")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 5)
+
+[node name="General_Manager" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("10_cv4g3")
+
+[connection signal="body_entered" from="Clé/Corps" to="Clé/Corps" method="_Quand_Collision"]
