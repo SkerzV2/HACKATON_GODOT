@@ -1,6 +1,6 @@
 is_global = true
 build_property.GodotDisabledSourceGenerators = 
-build_property.GodotProjectDir = D:\Documents\Conception Jeux Video\Projet Godot\Godot_Blocks\Godot_Blocks\
+build_property.GodotProjectDir = D:\Documents\Conception Jeux Video\Projet Godot\Godot_Blocks\
 build_property.GodotProjectDirBase64 = 
 build_property.GodotSourceGenerators = 
 build_property.IsGodotToolsProject = 
@@ -13,7 +13,7 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = C_Test
-build_property.ProjectDir = D:\Documents\Conception Jeux Video\Projet Godot\Godot_Blocks\Godot_Blocks\
+build_property.ProjectDir = D:\Documents\Conception Jeux Video\Projet Godot\Godot_Blocks\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.EffectiveAnalysisLevelStyle = 8.0

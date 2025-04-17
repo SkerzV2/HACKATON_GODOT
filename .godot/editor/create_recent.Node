@@ -1,11 +1,12 @@
-Label3D
+CSGBox3D
 FmodEventEmitter3D
 FmodListener3D
+Node3D
+Label3D
 AnimationPlayer
 CanvasLayer
 FmodBankLoader
 SpotLight3D
-Node3D
 OmniLight3D
 DirectionalLight3D
 CollisionShape3D

@@ -315,11 +315,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Documents\\Conception Jeux Video\\Projet Godot\\Godot_Blocks\\Godot_Blocks\\Godot_Blocks.csproj",
+      "projectUniqueName": "D:\\Documents\\Conception Jeux Video\\Projet Godot\\Godot_Blocks\\Godot_Blocks.csproj",
       "projectName": "Godot_Blocks",
-      "projectPath": "D:\\Documents\\Conception Jeux Video\\Projet Godot\\Godot_Blocks\\Godot_Blocks\\Godot_Blocks.csproj",
+      "projectPath": "D:\\Documents\\Conception Jeux Video\\Projet Godot\\Godot_Blocks\\Godot_Blocks.csproj",
       "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-      "outputPath": "D:\\Documents\\Conception Jeux Video\\Projet Godot\\Godot_Blocks\\Godot_Blocks\\.godot\\mono\\temp\\obj\\",
+      "outputPath": "D:\\Documents\\Conception Jeux Video\\Projet Godot\\Godot_Blocks\\.godot\\mono\\temp\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config"
