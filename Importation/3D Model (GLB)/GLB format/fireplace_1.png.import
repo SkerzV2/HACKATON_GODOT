@@ -2,14 +2,11 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cnvhb7a7ktrip"
+uid="uid://brelxdirneuxr"
 path.s3tc="res://.godot/imported/fireplace_1.png-e9f672a8da497b427601222e73a62d1d.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
-}
-generator_parameters={
-"md5": "70f3e83811d6c4bb474b844568404cb6"
 }
 
 [deps]

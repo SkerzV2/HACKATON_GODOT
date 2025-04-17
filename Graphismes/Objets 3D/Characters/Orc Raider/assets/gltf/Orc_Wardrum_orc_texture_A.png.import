@@ -2,13 +2,12 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dd05jss7rm6o8"
+uid="uid://chkg02o4s570p"
 path.s3tc="res://.godot/imported/Orc_Wardrum_orc_texture_A.png-298b0b131f0d96b1ae3bfb146f85c6fe.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
-generator_parameters={}
 
 [deps]
 

@@ -1,3 +1,9 @@
+Label3D
+FmodEventEmitter3D
+FmodListener3D
+AnimationPlayer
+CanvasLayer
+FmodBankLoader
 SpotLight3D
 Node3D
 OmniLight3D
@@ -5,10 +11,4 @@ DirectionalLight3D
 CollisionShape3D
 RigidBody3D
 StaticBody3D
-AnimationPlayer
 AnimatableBody3D
-CSGBox3D
-MeshInstance3D
-Area3D
-AudioStreamPlayer3D
-FmodEventEmitter2D
