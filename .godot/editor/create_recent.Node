@@ -1,5 +1,5 @@
-CSGBox3D
 FmodEventEmitter3D
+CSGBox3D
 FmodListener3D
 Node3D
 Label3D
@@ -12,4 +12,3 @@ DirectionalLight3D
 CollisionShape3D
 RigidBody3D
 StaticBody3D
-AnimatableBody3D

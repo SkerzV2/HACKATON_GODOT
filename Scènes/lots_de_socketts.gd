@@ -63,7 +63,7 @@ func _process(_delta):
 	if est_proche and !clef_trouvee:	
 		var interaction_prompt = get_node("../../../UI/label_sockett" + str(index_chaussette_proche+1))	
 		# Si le joueur appuie sur E près d'une chaussette
-		if Input.is_action_just_pressed("interagir"):
+		if Input.is_action_just_pressed("interagir") or ArduinoManager.bouton2:
 			if index_chaussette_proche == chaussette_avec_clef:
 				# Bonne chaussette!
 				interaction_prompt.text = "Clef trouvée"

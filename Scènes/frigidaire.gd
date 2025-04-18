@@ -64,7 +64,7 @@ func _process(_delta):
 		
 		# Si le joueur appuie sur E
 		print(Input.is_action_just_pressed("interagir"))
-		if Input.is_action_just_pressed("interagir"):
+		if Input.is_action_just_pressed("interagir") or ArduinoManager.bouton2:
 			manger_dans_frigo()
 	else:
 		interaction_prompt.visible = false

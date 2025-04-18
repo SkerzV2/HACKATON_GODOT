@@ -130,7 +130,8 @@ func _process(_delta):
 	check_proximity_to_presents()
 	
 	# Vérifier l'interaction via la touche E
-	if Input.is_action_just_pressed("interagir") and cadeau_selectionne:
+	if (Input.is_action_just_pressed("interagir") or ArduinoManager.bouton2) and cadeau_selectionne:
+		await get_tree().create_timer(0.2).timeout
 		deposer_cadeau()
 	
 	# Mettre à jour les marqueurs lumineux

@@ -3,6 +3,7 @@ using System;
 using System.IO.Ports;
 using System.Threading; // Ajout nécessaire pour Thread.Sleep si utilisé pour la reconnexion
 
+[GlobalClass]
 public partial class Arduino_Manager : Node2D
 {
 	SerialPort serialPort;
@@ -15,35 +16,22 @@ public partial class Arduino_Manager : Node2D
 	float startTime = 0;
 	float currentTime;
 	string messageSerie;
+
+
 	bool connected = false; // Utiliser ce booléen pour suivre l'état
 	float vibrationTimer = 0; // Timer for vibration alternation
 	
-	// Vibration distance control
-	float vibrateMaxDistance = 10.0f; // Maximum distance to enable vibration (doubled from 5.0)
-	float vibrateHalfDistance = 5.0f; // Distance at which to halve vibration frequency (doubled from 2.5)
-	float vibrationBaseInterval = 0.1f; // Base interval for vibration (100ms)
-	float currentVibrationInterval = 0.1f; // Current interval, adjusted by distance
-	public float nearestCollectibleDistance = float.MaxValue; // Set by JoueurDemo.gd
-	bool vibrationStopped = false; // Track if we've already sent the stop command
-
-	//Toutes les variables suivantes sont à définir par vous en fonction des
-	//capteurs que vous voulez utiliser
-
-	public int potentiometreUn;
-	public int potentiometreDeux;
-	public int potentiometreTrois;
-
-	public int boutonUn;
-	public int boutonDeux;
-	public int boutonTrois;
-
-	public int piezzoUn;
-	public int piezzoDeux;
-	public int piezzoTrois;
-
-	public int ultrasonUn;
-	public int ultrasonDeux;
-	public int ultrasonTrois;
+	
+	public int joystick1x;
+	public int joystick1y;
+	public int joystick2x;
+	public int joystick2y;
+	public int bouton1;
+	public int bouton2;
+	public int bouton3;
+	public int boutonJoystick1;
+	public int boutonJoystick2;
+	public int levier;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -56,155 +44,107 @@ public partial class Arduino_Manager : Node2D
 			// Send the OFF command twice to ensure it's received
 			try
 			{
-				SendCharacter('0');
-				Thread.Sleep(100); // Small delay between commands
-				SendCharacter('0');
+				//SendCharacter('0');
+				//Thread.Sleep(100); // Small delay between commands
+				//SendCharacter('0');
 				GD.Print("Initial vibration OFF command sent");
 			}
 			catch (Exception)
 			{
+				GD.Print("Error");
 				// Ignore errors on startup
 			}
 		}
 	}
 
 	// *** MÉTHODE _Process MODIFIÉE ***
+	// Buffer pour stocker les données lues
+	string readBuffer = "";
+
 	public override void _Process(double delta)
 	{
-		// Vérifier d'abord si le port est censé être ouvert
 		if (serialPort != null && serialPort.IsOpen)
 		{
 			try
 			{
-				// Essayer de lire depuis le port série
-				messageSerie = serialPort.ReadLine();
-				connected = true; // Si la lecture réussit, nous sommes connectés
+				string incoming = serialPort.ReadExisting();
 
-				// Traiter le message reçu
-				string[] tableauValeurs = messageSerie.Split(':');
-				int tailleTableauValeurs = tableauValeurs.Length;
+				if (!string.IsNullOrEmpty(incoming))
+				{
+					readBuffer += incoming;
 
-				 //Vérification de sécurité pour éviter IndexOutOfRangeException
-				if (tailleTableauValeurs >= 2) // Assurez-vous qu'il y a au moins 2 valeurs
-				{
-					// On peut utiliser TryParse pour plus de robustesse contre les erreurs de format
-					Int32.TryParse(tableauValeurs[0], out ultrasonUn);
-					Int32.TryParse(tableauValeurs[1], out potentiometreUn);
-					// Ajoutez ici le parsing pour les autres valeurs si nécessaire, avec des vérifications de taille
-				}
-				else
-				{
-					// Optionnel: Gérer le cas où les données reçues sont incomplètes
-					GD.PrintErr("Données série incomplètes reçues.");
-				}
-				
-				 //Check if we're too far from any collectible
-				if (nearestCollectibleDistance > vibrateMaxDistance)
-				{
-					// Only send the stop command once to avoid flooding
-					if (!vibrationStopped)
+					while (true)
 					{
-						// Make sure vibration is turned OFF when too far
-						SendCharacter('0');
-						GD.Print("Too far from collectible, turning vibration OFF");
-						vibrationStopped = true;
-						alternate = false; // Reset alternate flag
-						vibrationTimer = 0; // Reset timer
-					}
-				}
-				else
-				{
-					// We're in range for vibration
-					vibrationStopped = false;
-					
-					// Update current vibration interval based on distance
-					UpdateVibrationInterval();
-					
-					// Update vibration timer
-					vibrationTimer += (float)delta;
-					
-					// Send vibration commands based on distance and timer
-					if (vibrationTimer >= currentVibrationInterval)
-					{
-						vibrationTimer = 0;
-						if (alternate)
+						int start = readBuffer.IndexOf('[');
+						int end = readBuffer.IndexOf(']');
+
+						if (start != -1 && end > start)
 						{
-							SendCharacter('1');
-							GD.Print($"Sending vibration ON (Distance: {nearestCollectibleDistance:F2}, Interval: {currentVibrationInterval:F2})");
+							// Extraire un message complet
+							string messageComplet = readBuffer.Substring(start + 1, end - start - 1);
+							readBuffer = readBuffer.Substring(end + 1);
+
+							// Debug brut
+							//GD.Print(">> Données brutes reçues : [", messageComplet, "]");
+
+							string[] tableauValeurs = messageComplet.Split(':');
+
+							if (tableauValeurs.Length >= 10)
+							{
+								Int32.TryParse(tableauValeurs[0], out joystick1x);
+								Int32.TryParse(tableauValeurs[1], out joystick1y);
+								Int32.TryParse(tableauValeurs[2], out joystick2x);
+								Int32.TryParse(tableauValeurs[3], out joystick2y);
+								Int32.TryParse(tableauValeurs[4], out bouton1);
+								Int32.TryParse(tableauValeurs[5], out bouton2);
+								Int32.TryParse(tableauValeurs[6], out bouton3);
+								Int32.TryParse(tableauValeurs[7], out boutonJoystick1);
+								Int32.TryParse(tableauValeurs[8], out boutonJoystick2);
+								Int32.TryParse(tableauValeurs[9], out levier);
+
+								//GD.Print("JOYSTICKS : ", joystick1x, ", ", joystick1y, " | ", joystick2x, ", ", joystick2y);
+								//GD.Print("BOUTONS : ", bouton1, bouton2, bouton3, " | BTN_JS1: ", boutonJoystick1, " BTN_JS2: ", boutonJoystick2);
+								//GD.Print("LEVIER : ", levier);
+
+								connected = true;
+							}
+							else
+							{
+								GD.PrintErr("Message incomplet ou mal formaté : ", messageComplet);
+							}
 						}
 						else
 						{
-							SendCharacter('0');
-							GD.Print($"Sending vibration OFF (Distance: {nearestCollectibleDistance:F2})");
+							break; // Pas encore de message complet
 						}
-						alternate = !alternate;
 					}
 				}
 			}
-			// Gérer les exceptions qui peuvent survenir si l'Arduino est déconnecté
-			//catch (TimeoutException)
-			//{
-				//// Le ReadTimeout a été atteint. Ce n'est pas forcément une erreur critique,
-				//// just aucune donnée n'est arrivée à temps.
-				//// Vous pouvez ignorer ou logger si besoin.
-				 ////GD.Print("Timeout en lecture série.");
-				//// Ne pas changer 'connected' ici forcément, la connexion peut toujours être active
-			//}
-			catch (Exception e) // Attrape les autres erreurs (IOExceptions, etc.)
+			catch (Exception e)
 			{
-				// Une erreur s'est produite (déconnexion probable)
 				GD.PrintErr($"Erreur de lecture série : {e.Message}");
-				connected = false; // Marquer comme déconnecté
-				// Optionnel: Fermer le port proprement pour éviter d'autres erreurs
-				try
-				{
-					serialPort.Close();
+				connected = false;
+
+				try { serialPort.Close(); } catch (Exception closeEx) {
+					GD.PrintErr($"Erreur lors de la fermeture du port : {closeEx.Message}");
 				}
-				catch (Exception closeEx)
-				{
-					GD.PrintErr($"Erreur lors de la fermeture du port après une erreur de lecture : {closeEx.Message}");
-				}
-				// serialPort = null; // Mettre à null si vous voulez tenter une réinitialisation complète plus tard
 			}
 		}
 		else
 		{
-			// Le port n'est pas ouvert (soit il n'a jamais été ouvert, soit il a été fermé suite à une erreur)
-			if (connected) // Si on était connecté avant, afficher un message
+			if (connected)
 			{
 				GD.Print("Port série non disponible ou fermé.");
 				connected = false;
 			}
-			// Optionnel : Ajouter ici une logique pour tenter de se reconnecter périodiquement
-			// exemple très simple :
-			// Thread.Sleep(1000); // Attention, Sleep bloque le thread ! À utiliser avec précaution ou via un Timer Godot.
-			// simpleInit();
+
+			// Tu peux ajouter une tentative de reconnexion ici si tu veux
 		}
 	}
+
+
 	// *** FIN DE LA MÉTHODE MODIFIÉE ***
 
-	private void UpdateVibrationInterval()
-	{
-		// If too far, no vibration (interval not relevant)
-		if (nearestCollectibleDistance > vibrateMaxDistance)
-		{
-			currentVibrationInterval = vibrationBaseInterval;
-			return;
-		}
-		
-		// If very close, use base interval (fastest vibration)
-		if (nearestCollectibleDistance <= vibrateHalfDistance)
-		{
-			currentVibrationInterval = vibrationBaseInterval;
-		}
-		// Between half distance and max distance, adjust interval linearly
-		else
-		{
-			float distanceFactor = (nearestCollectibleDistance - vibrateHalfDistance) / (vibrateMaxDistance - vibrateHalfDistance);
-			// Scale from 1x to 2x the base interval (slower as distance increases)
-			currentVibrationInterval = vibrationBaseInterval * (1.0f + distanceFactor);
-		}
-	}
 
 	void simpleInit()
 	{
@@ -216,7 +156,7 @@ public partial class Arduino_Manager : Node2D
 				serialPort.Close();
 			}
 
-			serialPort = new SerialPort("COM3", 9600) // ⚠️ Vérifier le bon port COM ici
+			serialPort = new SerialPort("COM5", 9600) // ⚠️ Vérifier le bon port COM ici
 			{
 				ReadTimeout = 500,  // Temps d'attente avant qu'une lecture échoue (ms)
 				WriteTimeout = 500, // Temps d'attente avant qu'une écriture échoue (ms) - Ajouté pour la robustesse
@@ -225,6 +165,7 @@ public partial class Arduino_Manager : Node2D
 				RtsEnable = true    // Active Request to Send
 			};
 			serialPort.Open();
+			GD.Print(serialPort.IsOpen);
 			GD.Print("Port série ouvert avec succès !");
 			connected = true; // Marquer comme connecté après ouverture réussie
 		}

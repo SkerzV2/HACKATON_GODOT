@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://b40gn5lor1xeb" path="res://Scènes/plafond.tscn" id="1_j63c2"]
 [ext_resource type="PackedScene" uid="uid://8eoshpt8t1ky" path="res://Graphismes/Objets 3D/Environment Sets/Furniture_Bits/cactus_small_A.gltf" id="2_3ochf"]
 [ext_resource type="Texture2D" uid="uid://cgicpkmvbsa1w" path="res://Importation/3D Model (GLB)/GLB format/Textures/colormap.png" id="2_aj8id"]
-[ext_resource type="Texture2D" uid="uid://b8sm583qri547" path="res://Graphismes/Objets 3D/Environment Sets/Restaurant_Bits/restaurantbits_texture.png" id="3_d554s"]
+[ext_resource type="Texture2D" uid="uid://b28jlhk5wdj5" path="res://Graphismes/Objets 3D/Environment Sets/Restaurant_Bits/restaurantbits_texture.png" id="3_d554s"]
 [ext_resource type="Script" uid="uid://cdm7s41ph37cd" path="res://Scènes/frigidaire.gd" id="3_i0e74"]
 [ext_resource type="Script" uid="uid://b21be24jhkoe2" path="res://Scènes/tas_de_cadeaux.gd" id="4_0jmvj"]
 [ext_resource type="PackedScene" uid="uid://bcae7eaqiwqis" path="res://Importation/3D Model (GLB)/GLB format/present-a-cube.glb" id="5_i0e74"]
@@ -25,7 +25,7 @@
 [ext_resource type="PackedScene" uid="uid://cfrqi1xy8b2kf" path="res://Importation/3D Model (GLB)/GLB format/sock-red-cane.glb" id="13_n57e7"]
 [ext_resource type="PackedScene" uid="uid://dqt62ifo17kt6" path="res://Importation/3D Model (GLB)/GLB format/sock-red.glb" id="14_rix6u"]
 [ext_resource type="PackedScene" uid="uid://br34sorrnm7ic" path="res://Scènes/chimney-fireplace.tscn" id="15_agmcc"]
-[ext_resource type="Texture2D" uid="uid://dhiirkc8wqxg3" path="res://Graphismes/Objets 3D/Environment Sets/Furniture_Bits/furniturebits_texture.png" id="16_hbh5f"]
+[ext_resource type="Texture2D" uid="uid://dmwd0hfelg0p0" path="res://Graphismes/Objets 3D/Environment Sets/Furniture_Bits/furniturebits_texture.png" id="16_hbh5f"]
 [ext_resource type="PackedScene" uid="uid://bv0fry2upwjcx" path="res://Graphismes/Objets 3D/Environment Sets/Furniture_Bits/shelf_B_small_decorated.gltf" id="17_w26wv"]
 [ext_resource type="Script" uid="uid://cnj1pyeglwd64" path="res://Scènes/omni_light_3d_2.gd" id="18_5hgq5"]
 [ext_resource type="PackedScene" uid="uid://q64s1jtecu8c" path="res://Graphismes/Objets 3D/Environment Sets/Furniture_Bits/shelf_B_large_decorated.gltf" id="18_a5rjr"]
@@ -3282,8 +3282,19 @@ transform = Transform3D(1, 0, 0, 0, 1.5, 0, 0, 0, 1, 0, -0.91263, 0)
 [node name="FmodEventEmitter3D" type="FmodEventEmitter3D" parent="Joueur/Tête/Camera3D/FmodListener3D"]
 event_name = "event:/son ambiance"
 event_guid = "{47e1d098-13f4-4e22-89ed-57438aa58de8}"
-autoplay = true
 volume = 0.2
+
+[node name="FmodEventEmitter3D_pas_lent" type="FmodEventEmitter3D" parent="Joueur/Tête/Camera3D/FmodListener3D"]
+event_name = "event:/Marche-lente"
+event_guid = "{833b01bf-80f6-46d0-a030-9c681e1cd492}"
+volume = 10.0
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0941184, 0, 0)
+
+[node name="FmodEventEmitter3D_pas_rapide" type="FmodEventEmitter3D" parent="Joueur/Tête/Camera3D/FmodListener3D"]
+event_name = "event:/Marche normal"
+event_guid = "{eea2db48-0f9e-4fe3-9492-cbd5c92a7587}"
+volume = 10.0
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.185113, 0, 0)
 
 [node name="Armes" type="Node3D" parent="Joueur"]
 

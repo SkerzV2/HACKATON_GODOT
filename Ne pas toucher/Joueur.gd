@@ -32,6 +32,10 @@ var gravity = 9.8
 
 @onready var fmod_listener = get_node("../Map/Sol/craque_parquet/FmodListener3D")
 @onready var fmod_emitter = fmod_listener.get_node("FmodEventEmitter3D")
+
+@onready var fmod_listener_pas = get_node("Tête/Camera3D/FmodListener3D")
+@onready var emetteur_marche = fmod_listener_pas.get_node("FmodEventEmitter3D_pas_lent")
+@onready var emetteur_course = fmod_listener_pas.get_node("FmodEventEmitter3D_pas_rapide")
 @onready var cactus_list = []
 # Lampe
 @export var lampe: SpotLight3D
@@ -40,6 +44,10 @@ var last_bouton1_state = 0
 var brightness = 1.0
 const MIN_BRIGHTNESS = 0.1
 const MAX_BRIGHTNESS = 2.0
+
+# Son variables
+var son_courir_actif = false
+var son_marcher_actif = false
 
 # Interaction
 var last_bouton2_state = 0
@@ -58,10 +66,12 @@ var last_activated_cactus = null
 var can_play_sound = true
 var cooldown_time = 2.0
 
+var speed_son = null
+
 func _init():
 	g_vars.joueur = self
 
-func _ready():
+func _ready():	
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	# Récupérer tous les cactus
 	for i in range(1, 21):
@@ -99,13 +109,15 @@ func _physics_process(delta):
 	# Handle sprint/walk with Arduino button3 (inversé: 1 = marche, 0 = course)
 	if ArduinoManager and ArduinoManager.connected and ArduinoManager.bouton3 == 1:
 		speed = WALK_SPEED  # Marche lente quand bouton3 est pressé
+		speed_son = emetteur_marche
 	else:
 		# Sinon on utilise le clavier pour debugger
 		if Input.is_action_pressed("Courir"):
 			speed = WALK_SPEED 
 		else:
 			speed = SPRINT_SPEED
-
+		speed_son = emetteur_course
+		
 	# Contrôle mouvement avec joystick Arduino ou clavier
 	var input_dir = Vector2.ZERO
 	
@@ -176,15 +188,47 @@ func _physics_process(delta):
 	# Utiliser le clavier si pas d'Arduino ou pour debug
 	if input_dir.length() < 0.1:
 		input_dir = Input.get_vector("Gauche", "Droite", "Avancer", "Reculer")
-	
+		
 	var direction = (tête.transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 	if is_on_floor():
 		if direction:
 			velocity.x = direction.x * speed
 			velocity.z = direction.z * speed
+			
+			if speed_son == emetteur_course: # Marche normal / rapide
+				
+				if not son_courir_actif:
+					# Arrêter le son de marche si actif
+					
+					emetteur_marche.stop()
+					print("marche stop")
+					
+					son_marcher_actif = false
+				
+					# Jouer le son de course
+					emetteur_course.play()
+					print("cours play")
+					son_courir_actif = true
+					
+			if speed_son == emetteur_marche:
+				
+				if not son_marcher_actif:
+					# Arrêter le son de course si actif
+					
+					emetteur_course.stop()
+					print("course stop")
+					son_courir_actif = false
+				
+					# Jouer le son de marche lente
+					emetteur_marche.play()
+					print("marche play")
+					son_marcher_actif = true
+			
 		else:
 			velocity.x = 0.0
 			velocity.z = 0.0
+			emetteur_marche.stop()
+			emetteur_course.stop()
 	else:
 		velocity.x = lerp(velocity.x, direction.x * speed, delta * 3.0)
 		velocity.z = lerp(velocity.z, direction.z * speed, delta * 3.0)
