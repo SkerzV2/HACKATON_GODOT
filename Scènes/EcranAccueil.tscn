@@ -1,0 +1,49 @@
+[gd_scene load_steps=3 format=3 uid="uid://d34py675balwa"]
+
+[ext_resource type="Script" uid="uid://b773vdva0082h" path="res://Scènes/EcranAccueil.gd" id="1_p0qkm"]
+[ext_resource type="Texture2D" uid="uid://b5vg4uo4n3526" path="res://Scènes/ecran_dacceuil.png" id="2_cpb7b"]
+
+[node name="EcranAccueil" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_p0qkm")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.101961, 0.211765, 0.337255, 1)
+
+[node name="EcranDacceuil" type="Sprite2D" parent="."]
+position = Vector2(577, 323.5)
+scale = Vector2(0.751302, 0.624023)
+texture = ExtResource("2_cpb7b")
+
+[node name="BoutonJouer" type="Button" parent="."]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+offset_left = 270.0
+offset_top = 271.0
+offset_right = 524.0
+offset_bottom = 349.0
+theme_override_font_sizes/font_size = 32
+text = "Jouer"
+
+[node name="BoutonQuitter" type="Button" parent="."]
+layout_mode = 2
+offset_left = 15.0
+offset_top = 574.0
+offset_right = 315.0
+offset_bottom = 627.0
+theme_override_font_sizes/font_size = 32
+text = "Quitter"
+
+[connection signal="pressed" from="BoutonJouer" to="." method="_on_bouton_jouer_pressed"]
+[connection signal="pressed" from="BoutonQuitter" to="." method="_on_bouton_quitter_pressed"]

@@ -1,7 +1,5 @@
 res://Scènes/Votre_Scene_Dupliquer.tscn
 res://Scènes/spot_light_3d.gd
-res://Arduino_Manager/Arduino_Manager.cs
-res://Scènes/tas_de_cadeaux.gd
-res://Scènes/frigidaire.gd
-res://Scènes/lots_de_socketts.gd
-res://Ne pas toucher/Joueur.gd
+res://Scènes/ecran_game_over.tscn
+res://Scènes/EcranAccueil.tscn
+res://Scènes/ecran_victory.tscn

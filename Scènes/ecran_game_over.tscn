@@ -1,0 +1,27 @@
+[gd_scene load_steps=3 format=3 uid="uid://cq1yvb402fvf1"]
+
+[ext_resource type="Script" uid="uid://ckt3iggys7y6s" path="res://game_over.gd" id="1_gmo1u"]
+[ext_resource type="Texture2D" uid="uid://djunvmdhj6v6j" path="res://Importation/game over.png" id="2_3hgo8"]
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_gmo1u")
+
+[node name="GameOver" type="Sprite2D" parent="."]
+position = Vector2(574.5, 323.5)
+scale = Vector2(0.749349, 0.62793)
+texture = ExtResource("2_3hgo8")
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 0
+offset_left = 208.0
+offset_top = 320.0
+offset_right = 477.0
+offset_bottom = 383.0
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

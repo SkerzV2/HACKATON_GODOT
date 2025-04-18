@@ -1,4 +1,4 @@
-[gd_scene load_steps=199 format=4 uid="uid://xgwbyd3n342l"]
+[gd_scene load_steps=200 format=4 uid="uid://xgwbyd3n342l"]
 
 [ext_resource type="Texture2D" uid="uid://1yiepjdb7qn0" path="res://Importation/47074.jpg" id="1_aj8id"]
 [ext_resource type="PackedScene" uid="uid://b40gn5lor1xeb" path="res://Scènes/plafond.tscn" id="1_j63c2"]
@@ -25,10 +25,11 @@
 [ext_resource type="PackedScene" uid="uid://cfrqi1xy8b2kf" path="res://Importation/3D Model (GLB)/GLB format/sock-red-cane.glb" id="13_n57e7"]
 [ext_resource type="PackedScene" uid="uid://dqt62ifo17kt6" path="res://Importation/3D Model (GLB)/GLB format/sock-red.glb" id="14_rix6u"]
 [ext_resource type="PackedScene" uid="uid://br34sorrnm7ic" path="res://Scènes/chimney-fireplace.tscn" id="15_agmcc"]
-[ext_resource type="Texture2D" uid="uid://dmwd0hfelg0p0" path="res://Graphismes/Objets 3D/Environment Sets/Furniture_Bits/furniturebits_texture.png" id="16_hbh5f"]
+[ext_resource type="Texture2D" uid="uid://b7328jd4tbeox" path="res://Graphismes/Objets 3D/Environment Sets/Furniture_Bits/furniturebits_texture.png" id="16_hbh5f"]
 [ext_resource type="PackedScene" uid="uid://bv0fry2upwjcx" path="res://Graphismes/Objets 3D/Environment Sets/Furniture_Bits/shelf_B_small_decorated.gltf" id="17_w26wv"]
 [ext_resource type="Script" uid="uid://cnj1pyeglwd64" path="res://Scènes/omni_light_3d_2.gd" id="18_5hgq5"]
 [ext_resource type="PackedScene" uid="uid://q64s1jtecu8c" path="res://Graphismes/Objets 3D/Environment Sets/Furniture_Bits/shelf_B_large_decorated.gltf" id="18_a5rjr"]
+[ext_resource type="Script" uid="uid://0t15l84gvw0y" path="res://Scènes/fin_de_jeux.gd" id="18_vmsdt"]
 [ext_resource type="PackedScene" uid="uid://dfd5jy3bwarxg" path="res://Graphismes/Objets 3D/Environment Sets/Restaurant_Bits/shelf_papertowel_decorated.gltf" id="19_t2p8f"]
 [ext_resource type="PackedScene" uid="uid://ch7qag8lh1jsd" path="res://Graphismes/Objets 3D/Environment Sets/Restaurant_Bits/floor_kitchen.gltf" id="20_aob3m"]
 [ext_resource type="PackedScene" uid="uid://csalb37cllxda" path="res://Graphismes/Objets 3D/Environment Sets/Restaurant_Bits/kitchencounter_straight_decorated.gltf" id="21_frtrh"]
@@ -3223,6 +3224,10 @@ event_guid = "{8ccca6b2-da61-433c-886e-2743d0aff6b3}"
 volume = 3.0
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.0995455)
 
+[node name="Fin" type="Node3D" parent="Map/Portes/Porte de sortie final"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.461478, 1.10615)
+script = ExtResource("18_vmsdt")
+
 [node name="Lumières" type="Node3D" parent="Map"]
 
 [node name="OmniLight3D2" type="OmniLight3D" parent="Map/Lumières"]
@@ -3282,6 +3287,7 @@ transform = Transform3D(1, 0, 0, 0, 1.5, 0, 0, 0, 1, 0, -0.91263, 0)
 [node name="FmodEventEmitter3D" type="FmodEventEmitter3D" parent="Joueur/Tête/Camera3D/FmodListener3D"]
 event_name = "event:/son ambiance"
 event_guid = "{47e1d098-13f4-4e22-89ed-57438aa58de8}"
+autoplay = true
 volume = 0.2
 
 [node name="FmodEventEmitter3D_pas_lent" type="FmodEventEmitter3D" parent="Joueur/Tête/Camera3D/FmodListener3D"]

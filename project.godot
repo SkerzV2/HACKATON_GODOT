@@ -29,7 +29,7 @@ DSP/dsp_buffer_count=4
 [application]
 
 config/name="Godot_Blocks"
-run/main_scene="uid://xgwbyd3n342l"
+run/main_scene="uid://d34py675balwa"
 config/features=PackedStringArray("4.4", "C#", "Forward Plus")
 boot_splash/image="res://Ne pas toucher/Godot Blocks screen.png"
 config/icon="res://Ne pas toucher/Godot Blocks logo.png"
