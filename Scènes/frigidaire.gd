@@ -13,6 +13,8 @@ extends Node3D
 
 @onready var porte_vestibule = get_node("../../Portes/Porte vestibule")
 @onready var porte_vestibule_anim_player = porte_vestibule.get_node("AnimationPlayer")
+
+@onready var bourdonnement_frigo = frigo_vide.get_node("FmodListener3D/FmodEventEmitter3D")
 # Distance à laquelle le joueur peut interagir avec le frigo
 @export var distance_interaction: float = 3.0
 
@@ -24,7 +26,8 @@ var joueur_dans_zone = false
 
 # Variable pour suivre si le joueur a mangé dans le frigo
 var nourriture_mangee = false
-
+var volume_open = 3
+var volume_close = 2
 func _ready():
 	porte_vestibule_anim_player.play("close")
 	# Au démarrage, le frigo plein est visible, le vide est caché
@@ -52,10 +55,12 @@ func _process(_delta):
 	# Si le joueur vient d'entrer dans la zone
 	if joueur_dans_zone and not precedent_dans_zone:
 		ouvrir_portes()
+
 	
 	# Si le joueur vient de sortir de la zone
 	elif (not joueur_dans_zone and precedent_dans_zone):
 		fermer_portes()
+
 	
 	# Gestion de l'interaction (manger)
 	if distance < distance_interaction and frigo_plein.visible:
@@ -63,33 +68,29 @@ func _process(_delta):
 		interaction_prompt.text = "'E' pour manger"
 		
 		# Si le joueur appuie sur E
-		print(Input.is_action_just_pressed("interagir"))
 		if Input.is_action_just_pressed("interagir") or ArduinoManager.bouton2:
 			manger_dans_frigo()
 	else:
 		interaction_prompt.visible = false
 
 func ouvrir_portes():
+	var son = frigo_vide.get_node("FmodListener3D/FmodEventEmitter3D_porte_open")
 	if frigo_plein.visible:
 		anim_player_plein.play("open")
 		anim_player_vide.play("open")
-		frigo_vide.get_node("FmodListener3D/FmodEventEmitter3D_porte_open").play()
+		bourdonnement_frigo.set_volume(volume_open)
+		son.play()
 
 func fermer_portes():
+	var son = frigo_vide.get_node("FmodListener3D/FmodEventEmitter3D_porte_close")
 	anim_player_plein.play("close")
 	anim_player_vide.play("close")
 	await get_tree().create_timer(0.5).timeout
-	frigo_vide.get_node("FmodListener3D/FmodEventEmitter3D_porte_close").play()
+	bourdonnement_frigo.set_volume(volume_close)
+	son.play()
 
 func manger_dans_frigo():
 	# Le joueur mange dans le frigo
 	nourriture_mangee = true
 	frigo_plein.visible = false
 	porte_vestibule_anim_player.play("open")
-
-	
-	# Jouer un son via le General_Manager s'il existe
-	if get_node_or_null("%General_Manager") != null:
-		var son_manger = load("res://sons/manger.ogg") if ResourceLoader.exists("res://sons/manger.ogg") else null
-		if son_manger:
-			%General_Manager.J

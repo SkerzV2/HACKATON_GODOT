@@ -22,26 +22,26 @@ grow_vertical = 2
 color = Color(0.101961, 0.211765, 0.337255, 1)
 
 [node name="EcranDacceuil" type="Sprite2D" parent="."]
-position = Vector2(577, 323.5)
-scale = Vector2(0.751302, 0.624023)
+position = Vector2(959.5, 541.5)
+scale = Vector2(1.24935, 1.0498)
 texture = ExtResource("2_cpb7b")
 
 [node name="BoutonJouer" type="Button" parent="."]
 modulate = Color(1, 1, 1, 0)
 layout_mode = 2
-offset_left = 270.0
-offset_top = 271.0
-offset_right = 524.0
-offset_bottom = 349.0
+offset_left = 479.0
+offset_top = 465.0
+offset_right = 847.0
+offset_bottom = 592.0
 theme_override_font_sizes/font_size = 32
 text = "Jouer"
 
 [node name="BoutonQuitter" type="Button" parent="."]
 layout_mode = 2
-offset_left = 15.0
-offset_top = 574.0
-offset_right = 315.0
-offset_bottom = 627.0
+offset_left = 84.0
+offset_top = 960.0
+offset_right = 384.0
+offset_bottom = 1013.0
 theme_override_font_sizes/font_size = 32
 text = "Quitter"
 

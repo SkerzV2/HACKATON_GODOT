@@ -102,9 +102,9 @@ public partial class Arduino_Manager : Node2D
 								Int32.TryParse(tableauValeurs[8], out boutonJoystick2);
 								Int32.TryParse(tableauValeurs[9], out levier);
 
-								//GD.Print("JOYSTICKS : ", joystick1x, ", ", joystick1y, " | ", joystick2x, ", ", joystick2y);
-								//GD.Print("BOUTONS : ", bouton1, bouton2, bouton3, " | BTN_JS1: ", boutonJoystick1, " BTN_JS2: ", boutonJoystick2);
-								//GD.Print("LEVIER : ", levier);
+								GD.Print("JOYSTICKS : ", joystick1x, ", ", joystick1y, " | ", joystick2x, ", ", joystick2y);
+								GD.Print("BOUTONS : ", bouton1, bouton2, bouton3, " | BTN_JS1: ", boutonJoystick1, " BTN_JS2: ", boutonJoystick2);
+								GD.Print("LEVIER : ", levier);
 
 								connected = true;
 							}

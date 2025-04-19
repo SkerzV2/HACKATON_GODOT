@@ -4,13 +4,13 @@ extends Node3D
 @onready var lumiere = self
 
 # Paramètres de la lumière
-@export var intensite_normale: float = 2.0  # Intensité normale de la lumière
+@export var intensite_normale: float = 6.0  # Intensité normale de la lumière
 @export var intensite_min: float = 0.5     # Intensité minimale lors de la baisse
 @export var temps_min_entre_variations: float = 0.2  # Temps minimum entre les variations
 @export var temps_max_entre_variations: float = 1.0  # Temps maximum entre les variations
 @export var duree_min_transition: float = 0.1  # Durée minimum d'une transition
 @export var duree_max_transition: float = 0.5  # Durée maximum d'une transition
-@export var probabilite_variation: float = 0.8  # Probabilité qu'une variation se produise
+@export var probabilite_variation: float = 0.9  # Probabilité qu'une variation se produise
 
 # Variables pour gérer l'état
 var intensite_originale: float

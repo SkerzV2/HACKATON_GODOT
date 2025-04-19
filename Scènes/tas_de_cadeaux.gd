@@ -16,6 +16,7 @@ extends Node3D
 
 var cadeaux_poses = 0
 var total_cadeaux_a_poser = 28 # Définissez le nombre total de cadeaux requis
+var noise_cadeaux = 2
 
 # Référence à l'UI qui montre le bouton "Appuyer sur E"
 @export var interaction_prompt: Control
@@ -179,7 +180,7 @@ func deposer_cadeau():
 	if cadeau_selectionne:
 		# Rendre le cadeau visible
 		cadeau_selectionne.visible = true
-		
+		NoiseManager.add_noise(noise_cadeaux)
 		# Mise à jour texte UI
 		cadeaux_poses += 1
 		print(cadeaux_poses)
@@ -191,6 +192,7 @@ func deposer_cadeau():
 			supprimer_tous_marqueurs() # Supprimer tous les marqueurs quand tout est fini
 			animation_porte_salon.play("open")
 			fmod_porte.play()
+			NoiseManager.add_noise(15)
 		
 		# Jouer un son ou une animation si nécessaire
 		fmod_emitter.play()

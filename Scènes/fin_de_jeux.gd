@@ -16,4 +16,8 @@ func _process(_delta):
 	# Vérifier si le joueur est à portée de détection
 	if distance <= distance_detection:
 		print("fin du jeux")
+		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 		get_tree().change_scene_to_file("res://Scènes/ecran_victory.tscn")
+	elif NoiseManager.isMaxNoise():
+		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+		get_tree().change_scene_to_file("res://Scènes/ecran_game_over.tscn")

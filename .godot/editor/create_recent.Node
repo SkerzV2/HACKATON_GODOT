@@ -1,9 +1,9 @@
+AnimationPlayer
 Node3D
 FmodEventEmitter3D
 CSGBox3D
 FmodListener3D
 Label3D
-AnimationPlayer
 CanvasLayer
 FmodBankLoader
 SpotLight3D

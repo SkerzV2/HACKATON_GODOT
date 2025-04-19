@@ -1,5 +1,5 @@
 res://Scènes/Votre_Scene_Dupliquer.tscn
 res://Scènes/spot_light_3d.gd
-res://Scènes/ecran_game_over.tscn
 res://Scènes/EcranAccueil.tscn
 res://Scènes/ecran_victory.tscn
+res://Scènes/ecran_game_over.tscn

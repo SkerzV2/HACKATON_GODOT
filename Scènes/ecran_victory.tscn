@@ -13,16 +13,16 @@ grow_vertical = 2
 script = ExtResource("1_ntdj5")
 
 [node name="Victory" type="Sprite2D" parent="."]
-position = Vector2(577, 325)
-scale = Vector2(0.751302, 0.628906)
+position = Vector2(958.501, 540.499)
+scale = Vector2(1.24805, 1.04981)
 texture = ExtResource("1_m3v3k")
 
 [node name="Button" type="Button" parent="."]
 modulate = Color(1, 1, 1, 0)
 layout_mode = 0
-offset_left = 650.0
-offset_top = 490.0
-offset_right = 1071.0
-offset_bottom = 573.0
+offset_left = 1089.0
+offset_top = 816.0
+offset_right = 1783.0
+offset_bottom = 951.0
 
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

@@ -1,10 +1,11 @@
 extends CharacterBody3D
-
 # Based on this tutorial: https://www.youtube.com/watch?v=A3HLeyaBCq4
 
 var speed
-const WALK_SPEED = 5.0
-const SPRINT_SPEED = 8.0
+const WALK_SPEED = 3.0
+var noise_amount_walk = 0.3
+const SPRINT_SPEED = 5.0
+var noise_amount_speed = 0.8
 const JUMP_VELOCITY = 4.5
 const SENSIBILITE = 0.003
 
@@ -30,6 +31,7 @@ const RECUL_COUP = 1.0
 
 var gravity = 9.8
 
+var noise_amount_grince = 5
 @onready var fmod_listener = get_node("../Map/Sol/craque_parquet/FmodListener3D")
 @onready var fmod_emitter = fmod_listener.get_node("FmodEventEmitter3D")
 
@@ -37,13 +39,15 @@ var gravity = 9.8
 @onready var emetteur_marche = fmod_listener_pas.get_node("FmodEventEmitter3D_pas_lent")
 @onready var emetteur_course = fmod_listener_pas.get_node("FmodEventEmitter3D_pas_rapide")
 @onready var cactus_list = []
-# Lampe
-@export var lampe: SpotLight3D
+@onready var lumiere = get_node("Tête/Camera3D/SpotLight3D")
+@onready var animation_tete = get_node("AnimationPlayer")
+
 var lampe_allumee = false
 var last_bouton1_state = 0
 var brightness = 1.0
 const MIN_BRIGHTNESS = 0.1
-const MAX_BRIGHTNESS = 2.0
+const MAX_BRIGHTNESS = 4.0
+const BRIGHTNESS_STEP = 0.5  # Pas d'augmentation/diminution de luminosité pour le clavier
 
 # Son variables
 var son_courir_actif = false
@@ -67,11 +71,38 @@ var can_play_sound = true
 var cooldown_time = 2.0
 
 var speed_son = null
+var is_moving = false
+var was_moving = false
+
+# Variables pour gérer l'état de la touche marcher
+var marcher_pressed = false
+var was_marcher_pressed = false
+var animation_timer = 0.0
+const ANIMATION_DURATION = 0.3  # Durée minimale de l'animation en secondes
+
+var walk_timer: Timer  # Déclarer le timer
+var speed_timer: Timer  # Déclarer le timer
+var noise_interval = 0.3
 
 func _init():
 	g_vars.joueur = self
 
 func _ready():	
+	walk_timer = Timer.new()
+	add_child(walk_timer)
+	walk_timer.connect("timeout", _on_walk_timer_timeout)
+	walk_timer.wait_time = noise_interval
+	walk_timer.one_shot = false  # Répéter le timer
+	walk_timer.autostart = false # Ne pas démarrer automatiquement
+	
+	speed_timer = Timer.new()
+	add_child(speed_timer)
+	speed_timer.connect("timeout", _on_speed_timer_timeout)
+	speed_timer.wait_time = noise_interval
+	speed_timer.one_shot = false  # Répéter le timer
+	speed_timer.autostart = false # Ne pas démarrer automatiquement
+	
+	animation_tete.play("up")
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	# Récupérer tous les cactus
 	for i in range(1, 21):
@@ -81,8 +112,7 @@ func _ready():
 		else:
 			push_warning("Cactus_Manager: Cactus cactus_small_A" + str(i) + " non trouvé")
 	# Désactiver la lampe au démarrage
-	if lampe:
-		lampe.visible = false
+	lumiere.visible = false
 
 func _unhandled_input(event):
 	# On garde la souris pour le débug, mais la vue sera aussi contrôlée par le joystick
@@ -92,10 +122,39 @@ func _unhandled_input(event):
 		camera.rotation.x = clamp(camera.rotation.x, deg_to_rad(-70), deg_to_rad(60))
 
 	# Pour le débogage - touche L allume/éteint lampe
-	if event is InputEventKey and event.pressed and event.keycode == KEY_L:
-		toggle_lampe()
+	if event is InputEventKey and event.pressed:
+		if Input.is_action_pressed("Lampe"):
+			toggle_lampe()
+		# Ajouter contrôles pour augmenter/diminuer la luminosité de la lampe
+		elif Input.is_action_pressed("Augmenter_lux"):
+			if lumiere.visible:
+				lumiere.light_energy = min(lumiere.light_energy + BRIGHTNESS_STEP, MAX_BRIGHTNESS)
+		elif Input.is_action_pressed("Baisser_lux"):
+			if lumiere.visible:
+				lumiere.light_energy = max(lumiere.light_energy - BRIGHTNESS_STEP, MIN_BRIGHTNESS)
 
 func _physics_process(delta):
+	# Gérer le timer d'animation si nécessaire
+	if animation_timer > 0:
+		animation_timer -= delta
+	
+	# Vérifier l'état de la touche marcher
+	marcher_pressed = Input.is_action_pressed("Marcher") or (ArduinoManager and ArduinoManager.connected and ArduinoManager.bouton3 == 1)
+	
+	# Si l'état de la touche a changé et que le timer n'est pas actif
+	if marcher_pressed != was_marcher_pressed and animation_timer <= 0:
+		if marcher_pressed:
+			# La touche marcher est pressée
+			animation_tete.play("down")
+			animation_timer = ANIMATION_DURATION
+		else:
+			# La touche marcher est relâchée
+			animation_tete.play("up")
+			animation_timer = ANIMATION_DURATION
+		
+		# Mettre à jour l'état précédent
+		was_marcher_pressed = marcher_pressed
+
 	# Add the gravity.
 	if not is_on_floor():
 		velocity.y -= gravity * delta
@@ -106,16 +165,12 @@ func _physics_process(delta):
 	#elif Input.is_action_just_pressed("Sauter") and is_on_floor():  # Garde le contrôle clavier pour debug
 	#	velocity.y = JUMP_VELOCITY
 	
-	# Handle sprint/walk with Arduino button3 (inversé: 1 = marche, 0 = course)
-	if ArduinoManager and ArduinoManager.connected and ArduinoManager.bouton3 == 1:
-		speed = WALK_SPEED  # Marche lente quand bouton3 est pressé
+	# Handle sprint/walk with Arduino button3 or keyboard
+	if marcher_pressed:
+		speed = WALK_SPEED  # Marche lente quand bouton3 est pressé ou touche marcher
 		speed_son = emetteur_marche
 	else:
-		# Sinon on utilise le clavier pour debugger
-		if Input.is_action_pressed("Courir"):
-			speed = WALK_SPEED 
-		else:
-			speed = SPRINT_SPEED
+		speed = SPRINT_SPEED
 		speed_son = emetteur_course
 		
 	# Contrôle mouvement avec joystick Arduino ou clavier
@@ -162,9 +217,9 @@ func _physics_process(delta):
 		
 		# Gestion du bouton1 pour la lampe (changement d'état)
 		if ArduinoManager.bouton1 == 1:
-			$"Tête/Camera3D/SpotLight3D".visible = true
+			lumiere.visible = true
 		else:
-			$"Tête/Camera3D/SpotLight3D".visible = false
+			lumiere.visible = false
 
 		
 		# Gestion du bouton2 pour interaction (touche E)
@@ -178,16 +233,19 @@ func _physics_process(delta):
 		
 
 		# Gestion du levier pour la luminosité
-		if $"Tête/Camera3D/SpotLight3D".visible:
+		if lumiere.visible:
 			# Normaliser la valeur du levier (0-1010) vers MIN_BRIGHTNESS-MAX_BRIGHTNESS
 			var slider_value = ArduinoManager.levier  # disons que ça retourne entre 0 et 1010
 			var lux = 0.0 + (slider_value / 1010.0) * (50.0 - 0.0)  # tu veux que la lumière varie de 0 à 5 par exemple
 
-			$"Tête/Camera3D/SpotLight3D".light_energy  =  lux
+			lumiere.light_energy = lux
 	
 	# Utiliser le clavier si pas d'Arduino ou pour debug
 	if input_dir.length() < 0.1:
 		input_dir = Input.get_vector("Gauche", "Droite", "Avancer", "Reculer")
+	
+	# Déterminer si le joueur est en mouvement
+	is_moving = input_dir.length() > 0.1
 		
 	var direction = (tête.transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 	if is_on_floor():
@@ -195,40 +253,44 @@ func _physics_process(delta):
 			velocity.x = direction.x * speed
 			velocity.z = direction.z * speed
 			
-			if speed_son == emetteur_course: # Marche normal / rapide
-				
-				if not son_courir_actif:
-					# Arrêter le son de marche si actif
+			# Gestion des sons de pas (que ce soit avec le clavier ou l'Arduino)
+			if is_moving:
+				if speed_son == emetteur_course: # Course
+					if not son_courir_actif:
+						# Arrêter le son de marche si actif
+						emetteur_marche.stop()
+						walk_timer.stop()
+						son_marcher_actif = false
 					
-					emetteur_marche.stop()
-					print("marche stop")
+						# Jouer le son de course
+						emetteur_course.play()
+						speed_timer.start()
+						son_courir_actif = true
+						
+				elif speed_son == emetteur_marche: # Marche
+					if not son_marcher_actif:
+						# Arrêter le son de course si actif
+						emetteur_course.stop()
+						speed_timer.stop()
+						son_courir_actif = false
 					
-					son_marcher_actif = false
-				
-					# Jouer le son de course
-					emetteur_course.play()
-					print("cours play")
-					son_courir_actif = true
-					
-			if speed_son == emetteur_marche:
-				
-				if not son_marcher_actif:
-					# Arrêter le son de course si actif
-					
-					emetteur_course.stop()
-					print("course stop")
-					son_courir_actif = false
-				
-					# Jouer le son de marche lente
-					emetteur_marche.play()
-					print("marche play")
-					son_marcher_actif = true
+						# Jouer le son de marche lente
+						emetteur_marche.play()
+						walk_timer.start()
+						son_marcher_actif = true
 			
 		else:
 			velocity.x = 0.0
 			velocity.z = 0.0
-			emetteur_marche.stop()
-			emetteur_course.stop()
+			# Arrêter les sons si le personnage ne bouge pas
+			if son_marcher_actif or son_courir_actif:
+				emetteur_marche.stop()
+				emetteur_course.stop()
+				walk_timer.stop()
+				speed_timer.stop()
+				son_marcher_actif = false
+				son_courir_actif = false
+							
 	else:
 		velocity.x = lerp(velocity.x, direction.x * speed, delta * 3.0)
 		velocity.z = lerp(velocity.z, direction.z * speed, delta * 3.0)
@@ -258,12 +320,10 @@ func _physics_process(delta):
 			
 			# Déplacer le listener FMOD à la position du cactus
 			fmod_listener.global_position = cactus.global_position
-			#
-			## Déplacer l'émetteur aussi (si nécessaire)
-			#fmod_emitter.global_position = cactus.global_position
 			
 			# Jouer le son
 			fmod_emitter.play()
+			NoiseManager.add_noise(noise_amount_grince)
 			
 			# Activer le cooldown
 			can_play_sound = false
@@ -282,7 +342,7 @@ func start_cooldown(delta):
 		if distance > detection_distance:
 			last_activated_cactus = null
 
-	# --- 🔧 DEBUG ARDUINO ---
+	# --- DEBUG ARDUINO ---
 	arduino_debug_timer += delta
 	if arduino_debug_timer >= 1.0:
 		arduino_debug_timer = 0.0
@@ -300,10 +360,9 @@ func _headbob(time) -> Vector3:
 	return pos
 
 func toggle_lampe():
-	if lampe:
-		lampe_allumee = !lampe_allumee
-		lampe.visible = lampe_allumee
-		print("Lampe: ", "ON" if lampe_allumee else "OFF")
+	lampe_allumee = !lampe_allumee
+	lumiere.visible = lampe_allumee
+	print("Lampe: ", "ON" if lampe_allumee else "OFF")
 
 func coup(dir):
 	effets_dégâts()
@@ -313,3 +372,9 @@ func effets_dégâts():
 	rect_dégât.visible = true
 	await get_tree().create_timer(0.2).timeout
 	rect_dégât.visible = false
+	
+func _on_walk_timer_timeout():
+	NoiseManager.add_noise(noise_amount_walk)
+	
+func _on_speed_timer_timeout():
+	NoiseManager.add_noise(noise_amount_speed)
